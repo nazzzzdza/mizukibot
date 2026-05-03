@@ -1,4 +1,13 @@
-const { Client, GatewayIntentBits, REST, Routes, Collection } = require("discord.js");
+const {
+  Client,
+  GatewayIntentBits,
+  REST,
+  Routes,
+  Collection,
+  ActionRowBuilder,
+  ButtonStyle
+} = require("discord.js");
+
 const fs = require("fs");
 const express = require("express");
 
@@ -30,7 +39,7 @@ const client = new Client({
 client.commands = new Collection();
 
 // ---------------------------
-// Load commands (safe)
+// Load commands
 // ---------------------------
 const commands = [];
 
@@ -45,8 +54,6 @@ if (fs.existsSync("./commands")) {
       commands.push(command.data.toJSON());
     }
   }
-} else {
-  console.log("⚠️ No /commands folder found");
 }
 
 // ---------------------------
@@ -70,7 +77,6 @@ client.once("ready", async () => {
   const latency = Date.now() - client.readyTimestamp;
   console.log(`latency: ${latency}ms`);
 
-  // ✅ Idle presence (no streaming)
   client.user.setPresence({
     activities: [{
       name: "Working for /nauraa`s shop ♡"
@@ -90,9 +96,13 @@ client.once("ready", async () => {
 });
 
 // ---------------------------
-// Handle interactions
+// HANDLE INTERACTIONS (COMMANDS + BUTTONS)
 // ---------------------------
 client.on("interactionCreate", async (interaction) => {
+
+  // ---------------------------
+  // SLASH COMMANDS
+  // ---------------------------
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
@@ -109,7 +119,41 @@ client.on("interactionCreate", async (interaction) => {
         });
       }
     }
-  } else {
+  }
+
+  // ---------------------------
+  // BUTTON SYSTEM (WLIST)
+  // ---------------------------
+  if (interaction.isButton()) {
+
+    const ALLOWED_ROLE_ID = "YOUR_ROLE_ID_HERE";
+
+    if (!interaction.member.roles.cache.has(ALLOWED_ROLE_ID)) {
+      return interaction.reply({
+        content: "you are not allowed to use these buttons.",
+        ephemeral: true
+      });
+    }
+
+    const row = ActionRowBuilder.from(interaction.message.components[0]);
+
+    // disable clicked button only
+    for (const button of row.components) {
+      if (button.data.custom_id === interaction.customId) {
+        button.setDisabled(true);
+        button.setStyle(ButtonStyle.Secondary);
+      }
+    }
+
+    await interaction.update({
+      components: [row]
+    });
+  }
+
+  // ---------------------------
+  // CUSTOM HANDLERS (optional legacy support)
+  // ---------------------------
+  else {
     for (const command of client.commands.values()) {
       if (typeof command.handleInteraction === "function") {
         try {
@@ -123,7 +167,7 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 // ---------------------------
-// Login
+// LOGIN
 // ---------------------------
 console.log("Token loaded:", token ? "YES" : "NO");
 
