@@ -2,9 +2,6 @@ const { Client, GatewayIntentBits, REST, Routes, Collection } = require("discord
 const fs = require("fs");
 const express = require("express");
 
-// export so commands can use it
-module.exports.supabase = supabase;
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
