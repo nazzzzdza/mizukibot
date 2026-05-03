@@ -5,7 +5,7 @@ const {
   ButtonStyle
 } = require("discord.js");
 
-const ALLOWED_CHANNEL_ID = "1432718535876022372";
+const ALLOWED_CHANNEL_ID = "1446441803372036116 ";
 const ALLOWED_ROLE_ID = "YOUR_ROLE_ID_HERE";
 
 module.exports = {
