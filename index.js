@@ -96,7 +96,7 @@ client.once("ready", async () => {
 });
 
 // ---------------------------
-// HANDLE INTERACTIONS (COMMANDS + BUTTONS)
+// HANDLE INTERACTIONS
 // ---------------------------
 client.on("interactionCreate", async (interaction) => {
 
@@ -122,9 +122,9 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   // ---------------------------
-  // BUTTON SYSTEM (WLIST)
+  // BUTTON SYSTEM (TOGGLE STYLE)
   // ---------------------------
-  if (interaction.isButton()) {
+  else if (interaction.isButton()) {
 
     const ALLOWED_ROLE_ID = "1500489431918837861";
 
@@ -137,10 +137,13 @@ client.on("interactionCreate", async (interaction) => {
 
     const row = ActionRowBuilder.from(interaction.message.components[0]);
 
-    // disable clicked button only
+    // toggle system: only one disabled at a time
     for (const button of row.components) {
       if (button.data.custom_id === interaction.customId) {
-        button.setDisabled(true);
+        button.setDisabled(true); // clicked one
+        button.setStyle(ButtonStyle.Secondary);
+      } else {
+        button.setDisabled(false); // reset others
         button.setStyle(ButtonStyle.Secondary);
       }
     }
@@ -151,7 +154,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   // ---------------------------
-  // CUSTOM HANDLERS (optional legacy support)
+  // OTHER HANDLERS
   // ---------------------------
   else {
     for (const command of client.commands.values()) {
