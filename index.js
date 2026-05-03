@@ -2,12 +2,12 @@ const { Client, GatewayIntentBits, REST, Routes, Collection } = require("discord
 const fs = require("fs");
 const express = require("express");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 // ---------------------------
 // Web server (Render keep alive)
 // ---------------------------
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.get("/", (req, res) => {
   res.send("mizuki bot is alive, making your designs!");
 });
@@ -30,24 +30,34 @@ const client = new Client({
 client.commands = new Collection();
 
 // ---------------------------
-// Load commands
+// Load commands (safe)
 // ---------------------------
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const commands = [];
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
+if (fs.existsSync("./commands")) {
+  const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-  if (command.data) {
-    client.commands.set(command.data.name, command);
-    commands.push(command.data.toJSON());
+  for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+
+    if (command.data) {
+      client.commands.set(command.data.name, command);
+      commands.push(command.data.toJSON());
+    }
   }
+} else {
+  console.log("⚠️ No /commands folder found");
 }
 
 // ---------------------------
 // Register slash commands
 // ---------------------------
 const token = String(process.env.TOKEN || "").trim();
+
+if (!token) {
+  console.error("❌ TOKEN is missing in environment variables!");
+  process.exit(1);
+}
 
 const rest = new REST({ version: "10" }).setToken(token);
 
@@ -60,12 +70,13 @@ client.once("ready", async () => {
   const latency = Date.now() - client.readyTimestamp;
   console.log(`latency: ${latency}ms`);
 
-client.user.setPresence({
-  activities: [{
-    name: "Working for /nauraa`s shop ♡"
-  }],
-  status: "idle"
-});
+  // ✅ Idle presence (no streaming)
+  client.user.setPresence({
+    activities: [{
+      name: "Working for /nauraa`s shop ♡"
+    }],
+    status: "idle"
+  });
 
   try {
     await rest.put(
@@ -74,7 +85,7 @@ client.user.setPresence({
     );
     console.log("Slash commands registered.");
   } catch (error) {
-    console.error(error);
+    console.error("Slash command error:", error);
   }
 });
 
@@ -82,7 +93,6 @@ client.user.setPresence({
 // Handle interactions
 // ---------------------------
 client.on("interactionCreate", async (interaction) => {
-
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
@@ -99,9 +109,7 @@ client.on("interactionCreate", async (interaction) => {
         });
       }
     }
-  }
-
-  else {
+  } else {
     for (const command of client.commands.values()) {
       if (typeof command.handleInteraction === "function") {
         try {
