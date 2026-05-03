@@ -24,8 +24,8 @@ module.exports = {
 
   async execute(interaction) {
 
-    // 🔒 channel lock
-    if (interaction.channelId !== 1432718535876022372) {
+    // 🔒 channel lock (FIXED)
+    if (interaction.channelId !== ALLOWED_CHANNEL_ID) {
       return interaction.reply({
         content: "this command can only be used in the waitlist channel.",
         ephemeral: true
