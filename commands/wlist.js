@@ -52,17 +52,17 @@ _ _       \`🎀\`    ᨵׁׅׅrdered  ;  **(${product})**
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId(`wlist_noted_${orderNumber}`)
-        .setLabel("Noted")
+        .setLabel("noted")
         .setStyle(ButtonStyle.Secondary),
 
       new ButtonBuilder()
         .setCustomId(`wlist_wip_${orderNumber}`)
-        .setLabel("WIP")
+        .setLabel("wip")
         .setStyle(ButtonStyle.Secondary),
 
       new ButtonBuilder()
         .setCustomId(`wlist_completed_${orderNumber}`)
-        .setLabel("Completed")
+        .setLabel("completed")
         .setStyle(ButtonStyle.Secondary)
     );
 
