@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 
-const ALLOWED_CHANNEL_ID = "1432718535876022372";
+const ALLOWED_CHANNEL_ID = "1446441803372036116";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,8 +32,8 @@ module.exports = {
     const product = interaction.options.getString("product");
 
 const message = `
-_ _   ıllı﹒﹒<a:00_trinketbox:1444269203212337152> order (#${orderNumber}) ﹕done *!*
-_ _         ┆︎   ordered  :  (${product}) \`  🎀  \`
+_ _   ıllı﹒﹒<a:00_trinketbox:1444269203212337152> order #${orderNumber} ﹕done *!*
+_ _         ┆︎   ordered  :  ${product} \`  🎀  \`
 _ _    ➔﹒﹒<a:00_vanity:1444269205888307423> thank u for buying ♡
 `;
 
