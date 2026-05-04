@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 
-const ALLOWED_CHANNEL_ID = "1446441803372036116";
+const ALLOWED_CHANNEL_ID = "1432718535876022372";
 
 module.exports = {
   data: new SlashCommandBuilder()
