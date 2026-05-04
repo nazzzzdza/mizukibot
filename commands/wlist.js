@@ -6,14 +6,14 @@ const {
 } = require("discord.js");
 
 const ALLOWED_CHANNEL_ID = "1446441803372036116 ";
-const ALLOWED_ROLE_ID = "YOUR_ROLE_ID_HERE";
+const ALLOWED_ROLE_ID = "1444309222975082537";
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("wlist")
     .setDescription("new wlist order")
     .addStringOption(option =>
-      option.setName("order_number")
+      option.setName("orderid")
         .setDescription("e.g. 001, 002")
         .setRequired(true)
     )
@@ -37,16 +37,16 @@ module.exports = {
       });
     }
 
-    const orderNumber = interaction.options.getString("order_number");
+    const orderNumber = interaction.options.getString("orderid");
     const buyer = interaction.options.getString("buyer");
     const product = interaction.options.getString("product");
 
     const message = `
-_ _       \`🎀\`    ᨵׁׅׅrder  **(#${orderNumber})**  !*!*
+_ _       \`🎀\`    ᨵׁׅׅrder  **#${orderNumber}**  !*!*
 
-_ _      ♡    frᨵׁׅׅm  ;  __${buyer}__ 
+_ _      <a:00_brush:1444269201094344734>    frᨵׁׅׅm  ;  __${buyer}__ 
 
-_ _       \`🎀\`    ᨵׁׅׅrdered  ;  **(${product})**
+_ _       \`🎀\`    ᨵׁׅׅrdered  ;  **${product}**
 `;
 
     const row = new ActionRowBuilder().addComponents(
