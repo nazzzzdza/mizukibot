@@ -32,9 +32,9 @@ module.exports = {
     const product = interaction.options.getString("product");
 
 const message = `
-_ _   ıllı﹒﹒(mizuki emote) order (#${orderNumber}) ﹕done *!*
+_ _   ıllı﹒﹒<a:00_trinketbox:1444269203212337152> order (#${orderNumber}) ﹕done *!*
 _ _         ┆︎   ordered  :  (${product}) \`  🎀  \`
-_ _    ➔﹒﹒(mizuki emote) thank u for buying ♡
+_ _    ➔﹒﹒<a:00_vanity:1444269205888307423> thank u for buying ♡
 `;
 
     await interaction.reply({
