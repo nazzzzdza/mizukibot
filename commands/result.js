@@ -7,7 +7,7 @@ module.exports = {
     .setName("results")
     .setDescription("order results")
     .addStringOption(option =>
-      option.setName("order id")
+      option.setName("orderid")
         .setDescription("e.g. 001, 002")
         .setRequired(true)
                      
@@ -28,7 +28,7 @@ module.exports = {
       });
     }
 
-    const orderNumber = interaction.options.getString("order id");
+    const orderNumber = interaction.options.getString("orderid");
     const product = interaction.options.getString("product");
 
 const message = `
