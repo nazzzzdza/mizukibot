@@ -126,7 +126,7 @@ client.on("interactionCreate", async (interaction) => {
   // ---------------------------
   else if (interaction.isButton()) {
 
-    const ALLOWED_ROLE_ID = "1500489431918837861";
+    const ALLOWED_ROLE_ID = "1501616011231756428";
 
     if (!interaction.member.roles.cache.has(ALLOWED_ROLE_ID)) {
       return interaction.reply({
